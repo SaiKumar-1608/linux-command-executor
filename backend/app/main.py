@@ -20,12 +20,14 @@ def create_application() -> FastAPI:
 
     # Enable CORS (allow frontend access)
     app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["https://linux-command-executor.vercel.app"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    CORSMiddleware,
+    allow_origins=[
+        "https://linux-command-executor.vercel.app",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
     # Include API routes
     app.include_router(api_router)
