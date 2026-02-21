@@ -115,17 +115,29 @@ linux-command-executor/
 ├── backend/
 │   ├── app/
 │   │   ├── api/
-│   │   └── script.js
+│   │   │   ├── __init__.py
+│   │   │   └── routes.py
 │   │   ├── models/
-│   │   └── script.js
+│   │   │   ├── __init__.py
+│   │   │   └── schemas.py
 │   │   ├── services/
-│   │   └── script.js
+│   │   │   ├── __init__.py
+│   │   │   └── validator.py
 │   │   ├── utils/
-│   │   └── script.js
+│   │   │   ├── __init__.py
+│   │   │   └── logger.py
+│   │   ├── __init__.py
+│   │   ├── config.py
 │   │   └── main.py
+│   ├── logs/
+│   │   └── execution.log
+│   ├── .env
 │   ├── requirements.txt
+│   └── runtime.txt
 │
+├── .gitignore
 └── README.md
+
 ```
 
 ### Installation
@@ -197,5 +209,6 @@ The Linux Command Executor project demonstrates practical full-stack engineering
 Technically, the project showcases secure API development with FastAPI, controlled subprocess execution, frontend terminal simulation with state management, CORS configuration, and successful cloud deployment using Render and Vercel. The deployment process involved production-level debugging, Python version management, environment configuration, and cross-origin handling.
 
 Overall, this project highlights the ability to design secure systems, maintain clear frontend-backend separation, troubleshoot real-world deployment issues, and deliver a production-ready application beyond local development.
+
 
 
