@@ -74,8 +74,10 @@ async function executeCommand(commandBlock) {
 ------------------------------ */
 input.addEventListener("keydown", (e) => {
 
-    // Ctrl + Enter → Execute
-    if (e.key === "Enter" && e.ctrlKey) {
+    // Enter → Execute
+    if (e.key === "Enter") {
+        e.preventDefault();  // 🔥 Prevent new line in textarea
+
         const cmdBlock = input.value.trim();
         if (!cmdBlock) return;
 
