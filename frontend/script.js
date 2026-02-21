@@ -1,7 +1,7 @@
 const terminal = document.getElementById("terminal");
 const input = document.getElementById("commandInput");
 
-const API_URL = "http://localhost:8000/api/execute";
+const API_URL = "https://linux-command-executor-zupv.onrender.com/";
 
 let history = [];
 let historyIndex = -1;
