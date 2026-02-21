@@ -21,9 +21,7 @@ def create_application() -> FastAPI:
     # Enable CORS (allow frontend access)
     app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://linux-command-executor-35ex.vercel.app",
-    ],
+    allow_origins=["*"],   # ← temporarily allow all origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
