@@ -1,0 +1,168 @@
+/* ==============================
+   Global Reset
+============================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: linear-gradient(180deg, #0f172a, #020617);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ==============================
+   App Layout
+============================== */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* ==============================
+   Header
+============================== */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: linear-gradient(
+        90deg,
+        #1e293b 0%,
+        #0f172a 50%,
+        #0b1220 100%
+    );
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.header-left {
+    font-size: 24px;
+    font-weight: 600;
+    color: #f8fafc;
+    letter-spacing: 0.5px;
+}
+
+.header-right {
+    font-size: 16px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* ==============================
+   Terminal
+============================== */
+.terminal {
+    flex: 1;
+    padding: 30px;
+    background: linear-gradient(180deg, #020617, #000814);
+    color: #e2e8f0;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-y: auto;
+
+    /* Preserve backend line breaks */
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Scrollbar */
+.terminal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+}
+
+.terminal::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+}
+
+/* ==============================
+   Input Bar
+============================== */
+.input-container {
+    display: flex;
+    align-items: flex-start;
+    padding: 18px 35px;
+    background: linear-gradient(90deg, #1e293b, #334155);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Prompt */
+.prompt {
+    margin-right: 15px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #60a5fa;
+    padding-top: 6px;
+}
+
+/* Textarea Input */
+textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e2e8f0;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    resize: none;
+    font-family: Consolas, Monaco, monospace;
+    line-height: 1.6;
+    min-height: 40px;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+/* ==============================
+   Output Styling
+============================== */
+
+/* Command text */
+.output {
+    margin-bottom: 8px;
+    color: #e2e8f0;
+}
+
+/* Error text */
+.error {
+    color: #f87171;
+    margin-bottom: 8px;
+}
+
+/* Execution time */
+.meta {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+/* ==============================
+   Smooth Fade Animation
+============================== */
+.output,
+.error,
+.meta {
+    animation: fadeIn 0.15s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
