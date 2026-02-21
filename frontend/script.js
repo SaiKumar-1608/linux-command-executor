@@ -1,7 +1,9 @@
 const terminal = document.getElementById("terminal");
 const input = document.getElementById("commandInput");
 
-const API_URL = "https://linux-command-executor-zupv.onrender.com/api/execute";
+const BASE_URL = "https://linux-command-executor-zupv.onrender.com";
+const API_URL = `${BASE_URL}/api/execute`;
+const HEALTH_URL = `${BASE_URL}/api/health`;
 
 let history = [];
 let historyIndex = -1;
@@ -25,17 +27,32 @@ function clearTerminal() {
 }
 
 /* -----------------------------
+   Backend Health Check
+------------------------------ */
+async function checkBackendHealth() {
+    try {
+        const response = await fetch(HEALTH_URL);
+        if (!response.ok) throw new Error("Health check failed");
+        console.log("Backend is reachable");
+    } catch (error) {
+        appendOutput("⚠ Backend is unreachable. It may be sleeping (Render free tier).", "error");
+    }
+}
+
+/* -----------------------------
    Execute multi-line commands
 ------------------------------ */
 async function executeCommand(commandBlock) {
 
-    // Handle clear locally
     if (commandBlock.trim().toLowerCase() === "clear") {
         clearTerminal();
         return;
     }
 
-    const commands = commandBlock.split("\n").filter(cmd => cmd.trim() !== "");
+    const commands = commandBlock
+        .split("\n")
+        .map(cmd => cmd.trim())
+        .filter(cmd => cmd !== "");
 
     for (let cmd of commands) {
 
@@ -46,16 +63,26 @@ async function executeCommand(commandBlock) {
         try {
             const response = await fetch(API_URL, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify({ command: cmd })
             });
 
-            const data = await response.json();
             const end = performance.now();
             const time = ((end - start) / 1000).toFixed(3);
 
+            let data;
+
+            try {
+                data = await response.json();
+            } catch {
+                appendOutput("Invalid response from backend", "error");
+                continue;
+            }
+
             if (!response.ok) {
-                appendOutput(`Blocked: ${data.detail}`, "error");
+                appendOutput(`Blocked: ${data.detail || "Command not allowed"}`, "error");
                 appendOutput(`Executed in ${time}s`, "meta");
                 continue;
             }
@@ -64,7 +91,7 @@ async function executeCommand(commandBlock) {
             appendOutput(`Executed in ${time}s`, "meta");
 
         } catch (err) {
-            appendOutput("Unable to connect to backend", "error");
+            appendOutput("Unable to connect to backend (Check CORS or server status)", "error");
         }
     }
 }
@@ -76,7 +103,7 @@ input.addEventListener("keydown", (e) => {
 
     // Enter → Execute
     if (e.key === "Enter") {
-        e.preventDefault();  // 🔥 Prevent new line in textarea
+        e.preventDefault();
 
         const cmdBlock = input.value.trim();
         if (!cmdBlock) return;
@@ -90,6 +117,7 @@ input.addEventListener("keydown", (e) => {
 
     // Arrow Up → History
     if (e.key === "ArrowUp") {
+        e.preventDefault();
         if (historyIndex > 0) {
             historyIndex--;
             input.value = history[historyIndex];
@@ -98,16 +126,21 @@ input.addEventListener("keydown", (e) => {
 
     // Arrow Down → History
     if (e.key === "ArrowDown") {
+        e.preventDefault();
         if (historyIndex < history.length - 1) {
             historyIndex++;
             input.value = history[historyIndex];
         } else {
+            historyIndex = history.length;
             input.value = "";
         }
     }
 });
 
 /* -----------------------------
-   Auto focus
+   Init
 ------------------------------ */
-window.onload = () => input.focus();
+window.onload = () => {
+    input.focus();
+    checkBackendHealth();
+};
