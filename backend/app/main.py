@@ -22,7 +22,7 @@ def create_application() -> FastAPI:
     app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://linux-command-executor.vercel.app",
+        "https://linux-command-executor-35ex.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
